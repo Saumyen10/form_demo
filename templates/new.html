@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Connection</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+</head>
+  <body>
+    <h1>Data</h1>
+
+    <div container="mt-5 width:40%">
+        <form method="post" action="{% url 'new' %}">
+            {% csrf_token %}
+
+            <label for="zone">Zone:</label>
+            <select class="form-select" name="zone" id="zone" onchange="zonefield()">
+                <option value="">Select Zone</option>
+                {% for zone in zones %}
+                    <option value="{{ zone.id }}"{% if request.GET.zone == zone.id|lower %} selected {% endif %}>{{ zone.name }}</option>
+                {% endfor %}
+            </select><br><br>
+
+            <label for="division">Division:</label>
+            <select class="form-select" name="division" id="division" onchange="divisionfield()">
+                <option value="">Select Division</option>
+                {% for division in divisions %}
+                    <option value="{{ division.id }}"{% if request.GET.division == division.id|lower %} selected {% endif %}>{{ division.name }}</option>
+                {% endfor %}
+            </select><br><br>
+
+            <label for="subdivision">Subdivision:</label>
+            <select class="form-select" name="subdivision" id="subdivision">
+                <option value="">Select Subdivision</option>
+                {% for subdivision in subdivisions %}
+                    <option value="{{ subdivision.id }}"{% if request.GET.subdivision == subdivision.id|lower %} selected {% endif %}>{{ subdivision.name }}</option>
+                {% endfor %}
+            </select><br><br>
+
+            <!-- Other input fields for additional data -->
+
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+    
+    <script>
+        function zonefield()
+        {
+            zoneid = document.getElementById('zone').value;
+            window.location = "/?zone=" + zoneid;
+        }
+        function divisionfield()
+        {
+            divisionid = document.getElementById('division').value;
+            window.location = "/?zone=" + '{{request.GET.zone}}'+"&division="+divisionid;
+        }
+
+    </script>
+
+  </body>
+</html>

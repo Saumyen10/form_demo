@@ -21,3 +21,12 @@ class SubDivision (models.Model):
     def __str__(self):
         return self.name
     
+class Consumer (models.Model):
+    name = models.CharField(max_length=30,null=True, blank=True)
+    zone = models.ForeignKey(Zone,on_delete=models.CASCADE, blank=True)
+    division = models.ForeignKey(Division,on_delete=models.CASCADE, blank=True)
+    subdivision = models.ForeignKey(SubDivision,on_delete=models.CASCADE, blank=True)
+
+    def __str__(self):
+        return self.name
+    
